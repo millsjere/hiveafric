@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const cors = require('cors');
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto')
 
 
 //Parsers //
@@ -29,7 +30,7 @@ app.use(cookieParser());
 
 
 // Connect to DB //
-
+ 
 
 // Start Server //
 const PORT = process.env.PORT

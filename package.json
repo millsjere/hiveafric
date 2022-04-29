@@ -4,9 +4,9 @@
   "description": "Digital Hive for Ecommerce Stores",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "client": "cd client && npm start"
   },
   "repository": {
     "type": "git",
