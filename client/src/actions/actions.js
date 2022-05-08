@@ -83,7 +83,7 @@ export const userLogin = (data) => {
 export const forgotUserPassword = (data) => {
     return async (dispatch) => {
       try {
-        const res = await axios.post("/auth/forgotpassword", data);
+        const res = await axios.post("/hive/forgotpassword", data);
         if(res.data.status === 'success'){
          dispatch(successModal('Reset email sent to your inbox'))
         }

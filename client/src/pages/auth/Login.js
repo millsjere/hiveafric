@@ -86,12 +86,12 @@ const Login = (props) => {
             <Grid item lg={5} md={6} sm={12}>
                 <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 5rem', height:'100%' }}>
                     <Box>
-                        <Typography variant='h5' className={classes.logo} >hive<span>Africa.</span> </Typography>
+                        <Typography variant='h5' className={classes.logo} >hive<span>Afrika.</span> </Typography>
                     </Box>
 
                     <Box >
                         <Typography className={classes.title} variant='h6'>Hello Again<span>.</span> </Typography>
-                        <Typography color='textSecondary' style={{marginBottom: '2rem'}}>Don't have a hive? Lets build you one. <Link href='/auth/signup'>Signup</Link></Typography>
+                        <Typography color='textSecondary' style={{marginBottom: '2rem'}}>Don't have a hive? Lets build you one. <Link href='/signup'>Signup</Link></Typography>
 
                         <form onSubmit={onFormSubmit}>
                             <TextField className={classes.field} variant='outlined' fullWidth label='Email' value={formInput.email} onChange={(e)=> dispatch({type: "EMAIL", payload: e.target.value})} InputProps={{
@@ -108,11 +108,11 @@ const Login = (props) => {
 
                     <Box display={'flex'} justifyContent='space-between'>
                         <span >
-                            <Typography style={{display: 'flex'}} color='textSecondary' variant='body2'> <Copyright fontSize='small' style={{marginRight: '5px'}} />  hiveafic {new Date().getFullYear()}</Typography>
+                            <Typography style={{display: 'flex'}} color='textSecondary' variant='body2'> <Copyright fontSize='small' style={{marginRight: '5px'}} />  hiveafrika {new Date().getFullYear()}</Typography>
                         </span>
                         <Hidden xsDown>
                             <span >
-                                <Typography style={{display: 'flex'}} color='textSecondary' variant='body2'> support@hiveafric.com</Typography>
+                                <Typography style={{display: 'flex'}} color='textSecondary' variant='body2'> support@hiveafrika.com</Typography>
                             </span>
                         </Hidden>
                     </Box>
