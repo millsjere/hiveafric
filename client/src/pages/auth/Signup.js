@@ -142,7 +142,7 @@ const Signup = (props) => {
                                 endAdornment: <InputAdornment position='end'> { show ? <Visibility className={classes.fieldIcon} onClick={()=> setShow(!show)} /> : <VisibilityOff className={classes.fieldIcon} onClick={()=> setShow(!show)} /> } </InputAdornment>
                             }} />
                             <Button className={classes.btn} type={'submit'} disableElevation variant='contained' color='secondary' fullWidth endIcon={<ArrowForward />}>Sign up</Button>
-                            <Typography variant='body2' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/auth/forgotpassword'>Forgot password</Link></Typography> 
+                            <Typography variant='body2' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/forgotpassword'>Forgot password</Link></Typography> 
                         </form>
 
                     </Box>
