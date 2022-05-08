@@ -5,6 +5,7 @@ import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
+import Account from './pages/user/Account';
 
 
 const App = () => {
@@ -13,7 +14,9 @@ const App = () => {
 
       <Routes>
         <Route exact path='/' element={<Login />} />
-        <Route exact path='/auth/signup' element={<Signup />} />
+        <Route exact path='/signup' element={<Signup />} />
+
+        <Route exact path='/account/dashboard' element={<Account />} />
 
       </Routes>
 

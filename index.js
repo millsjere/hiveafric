@@ -8,7 +8,7 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto')
 
-
+ 
 //Parsers //
 app.enable('trust proxy');
 app.use(cors({
@@ -33,7 +33,7 @@ app.use(cookieParser());
  
 
 // Start Server //
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 app.listen(PORT, ()=> {
     console.log(`Server is running on ${PORT}`)
 })
