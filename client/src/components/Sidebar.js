@@ -1,6 +1,6 @@
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { AccountCircle, AccountCircleOutlined, Assessment, AssessmentOutlined, Dashboard, DashboardOutlined, Forum, ForumOutlined, LocalMall, LocalMallOutlined, Settings, SettingsOutlined } from '@material-ui/icons'
+import { AccountCircleOutlined, ArrowForward, AssessmentOutlined, DashboardOutlined, ExitToApp, ForumOutlined, LocalMallOutlined, PeopleAltOutlined, SettingsOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
@@ -9,7 +9,9 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
         width: props => props.drawer,
         height: '100vh',
-        borderRight: `1px solid ${grey[300]}`
+        borderRight: `1px solid ${grey[300]}`,
+        display: 'flex',
+        flexDirection: 'column',
     },
     logo: {
         textAlign: 'center',
@@ -20,34 +22,64 @@ const useStyles = makeStyles(theme => ({
     },
     menuItem : {
         gap: '1rem',
-        marginBottom: '1rem',
+        marginBottom: '.5rem',
         borderRadius: '10px',
         transition: 'all .2s ease',
         '& .MuiListItemIcon-root': {
             transition: 'all .2s ease',
             minWidth: 'auto'
         },
+        '& .MuiListItemText-root p' : {
+            transition: 'all .2s ease',
+        },
         '&:hover': {
             cursor: 'pointer',
             color: '#fff',
             background: '#000',
-            '& .MuiListItemIcon-root': {
+            '& .MuiListItemIcon-root, .MuiListItemText-root p': {
                 color: '#fff',
             }
         }
+    },
+    active : {
+        background: '#000',
+        color: '#fff',
+        '& .MuiListItemIcon-root, .MuiListItemText-root p': {
+            color: '#fff',
+        }
+    },
+    large: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+        margin: '0 auto',
+        marginBottom: '.5rem',
+        marginTop: '-3rem',
+        border: '4px solid white'
+    },
+    iconBtn: {
+        borderRadius: '10px',
+        marginLeft: '.8rem',
+        padding: '.5rem',
+        background: theme.primaryColor,
+        color: '#fff',
+        transition: 'all .2s ease',
+        '&:hover': {
+            color: '#000'
+        }
     }
+
 }))
 const Sidebar = (props) => {
     const classes = useStyles(props)
-    const path = useLocation().pathname
+    const path = useLocation().pathname.split('/')[2]
 
     const menu = [
         {name: 'Dashboard', icon: <DashboardOutlined />, path: '/account/dashboard'},
         {name: 'Products', icon: <LocalMallOutlined />, path: '/account/products'},
         {name: 'Analytics', icon: <AssessmentOutlined /> , path: '/account/analytics'},
-        {name: 'Account', icon: <AccountCircleOutlined />, path: '/account/account'},
+        {name: 'Connect', icon: <PeopleAltOutlined />, path: '/account/connect'},
+        {name: 'Account', icon: <AccountCircleOutlined />, path: '/account/profile'},
         {name: 'Settings', icon: <SettingsOutlined />, path: '/account/settings'},
-        {name: 'Support', icon: <ForumOutlined />, path: '/account/support'},
 
     ]
 
@@ -58,18 +90,36 @@ const Sidebar = (props) => {
             <Typography className={classes.logo} variant='h5'>hive<span>Afrika.</span></Typography>
         </Box>
         <Divider />
-        <List style={{padding: '1rem'}} >
+        <List style={{padding: '1.5rem 1rem'}} >
             {
                 menu.map(item => {
                     return (
-                        <ListItem key={item.name} className={classes.menuItem}>
+                        <ListItem key={item.name} className={`${classes.menuItem} ${path === item.name.toLowerCase() && classes.active}` }>
                             <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText> {item.name}</ListItemText>
+                            <ListItemText><Typography color='textSecondary'>{item.name}</Typography> </ListItemText>
                         </ListItem>
                     )
                 })
             }
         </List>
+        <Divider />
+        <Box padding='1.5rem'>
+            <Typography gutterBottom variant='body2' color='textSecondary'>Try for Free. Get access to full features for 30days. No credit card needed.</Typography>
+            <Button endIcon={<ArrowForward fontSize='small' />} variant='contained' color='primary' disableElevation style={{marginTop: '.3rem', color: '#fff', borderRadius: '10px', height: '2.8rem'}}>Try Pro Now</Button>
+        </Box>
+
+        {/* User Profile */}
+        <Box padding='1rem' textAlign={'center'} bgcolor='#0000000d' margin={'1rem'} marginTop='auto' borderRadius='15px'>
+            <Avatar className={classes.large} />
+            <Typography style={{fontWeight: 500, fontSize: '1rem'}} noWrap>Jeremiah Mills</Typography>
+            <Typography variant='body2' color='textSecondary' noWrap>jeremiah@hiveafrika.com</Typography>
+            <Typography variant='body2' color='textSecondary' >superadmin</Typography>
+            <span style={{marginTop: '1rem', display: 'block' }}>
+                <IconButton className={classes.iconBtn} style={{marginLeft: 0}}> <ForumOutlined /> </IconButton>
+                <IconButton className={classes.iconBtn}> <ExitToApp /> </IconButton>
+            </span>
+        </Box>
+
 
     </div>
   )

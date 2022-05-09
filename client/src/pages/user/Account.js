@@ -1,5 +1,4 @@
 import { Badge, Box, Button, Container, IconButton, Typography } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
 import { NotificationsOutlined, SaveAlt, Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react'
@@ -34,7 +33,6 @@ const useStyles = makeStyles(theme => ({
     },
     iconBtn: {
         borderRadius: '10px',
-        background: '#fff',
         marginLeft: '.8rem',
         padding: '.5rem',
         background: '#0000000a'
@@ -53,8 +51,7 @@ const Account = () => {
        </Box>
 
         
-       <Box width={'100%'}>
-           <Container>
+       <Box width={'100%'} padding='1rem'>
             {/* APP BAR */}
            <Box className={classes.appbar}>
                 <span>
@@ -67,7 +64,7 @@ const Account = () => {
                         <Search />
                     </IconButton>
                     <IconButton className={classes.iconBtn}>
-                        <Badge variant='standard' color='secondary' className={classes.badge} badgeContent={4} > <NotificationsOutlined /> </Badge>
+                        <Badge variant='standard' color='secondary' overlap='rectangular' className={classes.badge} badgeContent={4} > <NotificationsOutlined /> </Badge>
                     </IconButton>
                </span>
            </Box>
@@ -77,7 +74,6 @@ const Account = () => {
               
                 
            </Box>
-           </Container>
           
 
        </Box>
