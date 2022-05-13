@@ -15,5 +15,5 @@ export const theme = createTheme({
         }
     },
     primaryColor : '#ED8A2F',
-    secondaryColor: '#3f5176',
+    secondaryColor: '#000',
 })

@@ -1,6 +1,6 @@
-import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
+import { Avatar, Box, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { AccountCircleOutlined, ArrowForward, AssessmentOutlined, DashboardOutlined, ExitToApp, ForumOutlined, LocalMallOutlined, PeopleAltOutlined, SettingsOutlined } from '@material-ui/icons'
+import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ForumOutlined, LocalMallOutlined, PeopleAltOutlined, PlayCircleFilled, SettingsOutlined, } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
         borderRight: `1px solid ${grey[300]}`,
         display: 'flex',
         flexDirection: 'column',
+        background: '#fff'
     },
     logo: {
         textAlign: 'center',
@@ -43,6 +44,13 @@ const useStyles = makeStyles(theme => ({
     },
     active : {
         background: '#000',
+        color: '#fff',
+        '& .MuiListItemIcon-root, .MuiListItemText-root p': {
+            color: '#fff',
+        }
+    },
+    goPro: {
+        background: theme.primaryColor,
         color: '#fff',
         '& .MuiListItemIcon-root, .MuiListItemText-root p': {
             color: '#fff',
@@ -83,6 +91,14 @@ const Sidebar = (props) => {
 
     ]
 
+    const extra = [
+        {name: 'Join Colony', icon: <ForumOutlined />, path: '/account/dashboard'},
+        {name: 'Move To PRO', icon: <PlayCircleFilled />, path: '/account/products'},
+
+    ]
+
+
+
 
   return (
     <div className={classes.wrapper}>
@@ -102,11 +118,19 @@ const Sidebar = (props) => {
                 })
             }
         </List>
-        <Divider />
-        <Box padding='1.5rem'>
-            <Typography gutterBottom variant='body2' color='textSecondary'>Try for Free. Get access to full features for 30days. No credit card needed.</Typography>
-            <Button endIcon={<ArrowForward fontSize='small' />} variant='contained' color='primary' disableElevation style={{marginTop: '.3rem', color: '#fff', borderRadius: '10px', height: '2.8rem'}}>Try Pro Now</Button>
-        </Box>
+        <Divider style={{margin: '0 1.5rem'}} />
+        <List style={{padding: '1.5rem 1rem'}} >
+            {
+                extra.map(item => {
+                    return (
+                        <ListItem key={item.name} className={`${classes.menuItem} ${item.name === 'Move To PRO' && classes.goPro} ${path === item.name.toLowerCase() && classes.active}` }>
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText><Typography color='textSecondary'>{item.name}</Typography> </ListItemText>
+                        </ListItem>
+                    )
+                })
+            }
+        </List>
 
         {/* User Profile */}
         <Box padding='1rem' textAlign={'center'} bgcolor='#0000000d' margin={'1rem'} marginTop='auto' borderRadius='15px'>
