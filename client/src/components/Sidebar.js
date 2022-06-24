@@ -1,9 +1,10 @@
-import { Avatar, Box, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
+import { Avatar, Box, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ForumOutlined, LocalMallOutlined, PeopleAltOutlined, PlayCircleFilled, SettingsOutlined, } from '@material-ui/icons'
+import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ExpandMore, ForumOutlined, KeyboardArrowRight, LocalMallOutlined, PlayCircleFilled, SettingsOutlined, } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import User from '../assets/user.png'
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -12,12 +13,13 @@ const useStyles = makeStyles(theme => ({
         borderRight: `1px solid ${grey[300]}`,
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff'
+        background: theme.secondaryColor
     },
     logo: {
         textAlign: 'center',
+        color: '#fff',
         '& span': {
-            fontWeight: 600,
+            fontWeight:700,
             color: theme.primaryColor
         }
     },
@@ -27,23 +29,25 @@ const useStyles = makeStyles(theme => ({
         borderRadius: '10px',
         transition: 'all .2s ease',
         '& .MuiListItemIcon-root': {
+            color: theme.primaryColor,
             transition: 'all .2s ease',
             minWidth: 'auto'
         },
         '& .MuiListItemText-root p' : {
+            color: '#fff',
             transition: 'all .2s ease',
         },
         '&:hover': {
             cursor: 'pointer',
             color: '#fff',
-            background: '#000',
+            background: theme.opacSecondary,
             '& .MuiListItemIcon-root, .MuiListItemText-root p': {
                 color: '#fff',
             }
         }
     },
     active : {
-        background: '#000',
+        background: theme.opacSecondary,
         color: '#fff',
         '& .MuiListItemIcon-root, .MuiListItemText-root p': {
             color: '#fff',
@@ -51,9 +55,8 @@ const useStyles = makeStyles(theme => ({
     },
     goPro: {
         background: theme.primaryColor,
-        color: '#fff',
         '& .MuiListItemIcon-root, .MuiListItemText-root p': {
-            color: '#fff',
+            // color: '#fff',
         }
     },
     large: {
@@ -62,41 +65,38 @@ const useStyles = makeStyles(theme => ({
         margin: '0 auto',
         marginBottom: '.5rem',
         marginTop: '-3rem',
-        border: '4px solid white'
+        border: `6px solid ${theme.secondaryColor}`
     },
     iconBtn: {
         borderRadius: '10px',
         marginLeft: '.8rem',
         padding: '.5rem',
-        background: theme.primaryColor,
+        background: theme.secondaryColor,
         color: '#fff',
         transition: 'all .2s ease',
         '&:hover': {
-            color: '#000'
+            color: theme.primaryColor
         }
-    }
+    },
+    nested: {
+        paddingLeft: theme.spacing(3)
+    },
 
 }))
 const Sidebar = (props) => {
     const classes = useStyles(props)
-    const path = useLocation().pathname.split('/')[2]
-
-    const menu = [
-        {name: 'Dashboard', icon: <DashboardOutlined />, path: '/account/dashboard'},
-        {name: 'Products', icon: <LocalMallOutlined />, path: '/account/products'},
-        {name: 'Analytics', icon: <AssessmentOutlined /> , path: '/account/analytics'},
-        {name: 'Connect', icon: <PeopleAltOutlined />, path: '/account/connect'},
-        {name: 'Account', icon: <AccountCircleOutlined />, path: '/account/profile'},
-        {name: 'Settings', icon: <SettingsOutlined />, path: '/account/settings'},
-
-    ]
+    const path = useLocation().pathname.split('/')[1]
+    const [ open, setOpen ] = useState(false)
 
     const extra = [
-        {name: 'Join Colony', icon: <ForumOutlined />, path: '/account/dashboard'},
-        {name: 'Move To PRO', icon: <PlayCircleFilled />, path: '/account/products'},
+        {name: 'Join Colony', icon: <ForumOutlined fontSize='small' />, path: '/account/dashboard'},
+        {name: 'Move To PRO', icon: <PlayCircleFilled  fontSize='small'/>, path: '/account/products'},
 
     ]
 
+    const navLinks = (val) => {
+        window.location.assign(`/${val}`)
+    }
 
 
 
@@ -105,44 +105,72 @@ const Sidebar = (props) => {
         <Box padding='1.5rem'>
             <Typography className={classes.logo} variant='h5'>hive<span>Afrika.</span></Typography>
         </Box>
-        <Divider />
+        <Divider style={{background: '#ffffff33'}} />
         <List style={{padding: '1.5rem 1rem'}} >
-            {
-                menu.map(item => {
-                    return (
-                        <ListItem key={item.name} className={`${classes.menuItem} ${path === item.name.toLowerCase() && classes.active}` }>
-                            <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText><Typography color='textSecondary'>{item.name}</Typography> </ListItemText>
+            <ListItem className={`${classes.menuItem} ${path === 'dashboard' && classes.active}` } onClick={()=> navLinks('dashboard')}>
+                <ListItemIcon ><DashboardOutlined fontSize='small' /></ListItemIcon>
+                <ListItemText><Typography color='textSecondary'>Dashboard</Typography> </ListItemText>
+            </ListItem>
+            <ListItem className={`${classes.menuItem} ${path === 'inventory' && classes.active}` } onClick={()=>setOpen(!open)}>
+                <ListItemIcon > <LocalMallOutlined fontSize='small' /> </ListItemIcon>
+                <ListItemText><Typography color='textSecondary'>Inventory</Typography> </ListItemText>
+                { open ? <ExpandMore /> : <KeyboardArrowRight style={{color: grey[400]}} /> }
+            </ListItem>
+            <Collapse in={open} timeout='auto'>
+                    <List disablePadding>
+                        <ListItem dense className={`${classes.menuItem}` } onClick={()=> navLinks('inventory')}>
+                            <ListItemIcon></ListItemIcon>
+                            <ListItemText className={classes.nested}><Typography color='textSecondary'>Products</Typography> </ListItemText>
                         </ListItem>
-                    )
-                })
-            }
+                        <ListItem dense className={`${classes.menuItem}`} onClick={()=> navLinks('inventory/category')}>
+                            <ListItemIcon></ListItemIcon>
+                            <ListItemText className={classes.nested}><Typography color='textSecondary'>Categories</Typography> </ListItemText>
+                        </ListItem>
+                        <ListItem dense className={`${classes.menuItem}` } onClick={()=> navLinks('inventory/brands')}>
+                            <ListItemIcon></ListItemIcon>
+                            <ListItemText className={classes.nested}><Typography color='textSecondary'>Brands</Typography> </ListItemText>
+                        </ListItem>
+                    </List>
+            </Collapse>
+            <ListItem className={`${classes.menuItem} ${path === 'analytics' && classes.active}` } onClick={()=> navLinks('analytics')}>
+                <ListItemIcon> <AssessmentOutlined fontSize='small' /> </ListItemIcon>
+                <ListItemText><Typography color='textSecondary'>Analytics</Typography> </ListItemText>
+            </ListItem>
+            <ListItem className={`${classes.menuItem} ${path === 'stores' && classes.active}` } onClick={()=> navLinks('stores')}>
+                <ListItemIcon><AccountCircleOutlined fontSize='small' /></ListItemIcon>
+                <ListItemText><Typography color='textSecondary'>Stores</Typography> </ListItemText>
+            </ListItem>
+            <ListItem className={`${classes.menuItem} ${path === 'settings' && classes.active}` } onClick={()=> navLinks('settings')}>
+                <ListItemIcon> <SettingsOutlined fontSize='small' /> </ListItemIcon>
+                <ListItemText><Typography color='textSecondary'>Settings</Typography> </ListItemText>
+            </ListItem>
         </List>
-        <Divider style={{margin: '0 1.5rem'}} />
+        <Divider style={{margin: '0 1.5rem', background: '#ffffff33'}} light />
         <List style={{padding: '1.5rem 1rem'}} >
             {
                 extra.map(item => {
                     return (
-                        <ListItem key={item.name} className={`${classes.menuItem} ${item.name === 'Move To PRO' && classes.goPro} ${path === item.name.toLowerCase() && classes.active}` }>
-                            <ListItemIcon>{item.icon}</ListItemIcon>
+                        <ListItem key={item.name} className={`${classes.menuItem} ${path === item.name.toLowerCase() && classes.active}` }>
+                            <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
                             <ListItemText><Typography color='textSecondary'>{item.name}</Typography> </ListItemText>
                         </ListItem>
                     )
                 })
             }
         </List>
-
+        <Box padding={'1rem'}></Box>
         {/* User Profile */}
-        <Box padding='1rem' textAlign={'center'} bgcolor='#0000000d' margin={'1rem'} marginTop='auto' borderRadius='15px'>
-            <Avatar className={classes.large} />
+        <Box padding='1rem' textAlign={'center'} bgcolor='#256d945c' color='#fff' margin={'1rem'} marginTop='auto' borderRadius='15px'>
+            <Avatar src={User} alt='user-img' className={classes.large} />
             <Typography style={{fontWeight: 500, fontSize: '1rem'}} noWrap>Jeremiah Mills</Typography>
-            <Typography variant='body2' color='textSecondary' noWrap>jeremiah@hiveafrika.com</Typography>
-            <Typography variant='body2' color='textSecondary' >superadmin</Typography>
+            <Typography variant='body2' style={{color: '#ffffff70'}} noWrap>jeremiah@hiveafrika.com</Typography>
+            <Typography variant='body2' style={{color: '#ffffff70'}} >superadmin</Typography>
             <span style={{marginTop: '1rem', display: 'block' }}>
                 <IconButton className={classes.iconBtn} style={{marginLeft: 0}}> <ForumOutlined /> </IconButton>
                 <IconButton className={classes.iconBtn}> <ExitToApp /> </IconButton>
             </span>
         </Box>
+        <Box padding={'.2rem'}></Box>
 
 
     </div>

@@ -3,7 +3,7 @@ import { AccountCircle, LocalMall, MoreVert, TrendingUp } from '@material-ui/ico
 import { AvatarGroup } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import Slider from '../../assets/slider1.jpg'
+import Slider from '../../assets/slider2.jpg'
 import ProductListItem from '../../components/ProductListItem'
 
 
@@ -160,13 +160,13 @@ const Dashboard = () => {
                                 <IconButton> <MoreVert className={classes.cardIcon} /></IconButton>
                             </span>
                         </Box>
-                        <Divider style={{margin: '10px 0'}} />
+                        <Divider style={{marginTop: '-10px'}} />
                         <Box>
                             {
-                                topProducts.map(prod => {
+                                topProducts.map((prod, index) => {
                                     return (
                                        
-                                            <ProductListItem key={prod.name} name={prod.name} image={prod.img} sales={32} style={{ margin: '10px 0'}} />
+                                            <ProductListItem key={index} name={prod.name} image={prod.img} sales={32} style={{ margin: '10px 0'}} />
                                       
                                     )
                                 })
