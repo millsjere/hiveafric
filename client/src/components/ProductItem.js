@@ -1,5 +1,5 @@
-import { Box, IconButton, Typography } from '@material-ui/core'
-import { Edit} from '@material-ui/icons'
+import { Box, IconButton, Tooltip, Typography } from '@material-ui/core'
+import { Delete, Edit, FileCopy } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import Cover from '../assets/cover.jpg'
@@ -13,16 +13,54 @@ const useStyles = makeStyles(theme => ({
     icon : {
         position: 'absolute',
         top: '5%',
-        right: '5%',
+        right: '-5%',
         borderRadius: '8px',
         background: '#fff',
         padding: '5px',
         opacity: 0,
-        transition: 'all .2s ease-in'
+        transition: 'all .2s ease',
+        '&:hover' : {
+            background: 'red',
+            color: '#fff'
+        }
+    },
+    iconDraft : {
+        position: 'absolute',
+        top: '21%',
+        right: '-5%',
+        borderRadius: '8px',
+        background: '#fff',
+        padding: '5px',
+        opacity: 0,
+        transition: 'all .2s ease',
+        '&:hover' : {
+            background: 'red',
+            color: '#fff'
+        }
+    },
+    iconDelete : {
+        position: 'absolute',
+        color: 'red',
+        top: '37%',
+        right: '-5%',
+        borderRadius: '8px',
+        background: '#fff',
+        padding: '5px',
+        opacity: 0,
+        transition: 'all .2s ease',
+        '&:hover' : {
+            background: 'red',
+            color: '#fff'
+        }
     },
     wrap: {
-        '&:hover #iconBtn': {
+        '&:hover #iconEdit': {
             opacity: 1,
+            right: '5%'
+        },
+        '&:hover #iconDelete': {
+            opacity: 1,
+            right: '5%',
         }
     }
 }))
@@ -33,7 +71,15 @@ const ProductItem = (props) => {
   return (
     <Box padding='.8rem' paddingBottom={'1rem'} bgcolor={'#fff'} borderRadius='10px' className={classes.wrap} >
         <Box height={'15rem'} position='relative' style={{ backgroundImage: `url(${Cover})`, backgroundSize: 'cover', backgroundPosition: 'center' }} borderRadius='10px'>
-            <IconButton id={'iconBtn'} className={classes.icon}><Edit fontSize='small'  /></IconButton>
+            <Tooltip title='Edit' arrow placement="left">
+                <IconButton id={'iconEdit'} className={classes.icon}><Edit fontSize='small'  /></IconButton>
+            </Tooltip>
+            <Tooltip title='Draft' arrow placement="left">
+                <IconButton id={'iconEdit'} className={classes.iconDraft}><FileCopy fontSize='small'  /></IconButton>
+            </Tooltip>
+            <Tooltip title='Delete' arrow placement="left">
+                <IconButton id={'iconDelete'} className={classes.iconDelete}><Delete fontSize='small'  /></IconButton>
+            </Tooltip>
         </Box>
         <Box marginTop={'15px'}>
             <Typography variant='h6' gutterBottom className={classes.title}>New cushion porceline glass plate for product {props.title} title</Typography>

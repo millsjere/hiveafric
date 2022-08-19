@@ -10,7 +10,7 @@ import ProductListItem from '../../components/ProductListItem'
 const useStyles = makeStyles(theme => ({
     slider : {
         display: 'flex',
-        height: '18rem',
+        height: '14rem',
         padding: '3rem',
         borderRadius: '15px',
         backgroundImage: `linear-gradient(45deg, rgba(0,0,0, 80%), transparent ), url(${Slider})`,
@@ -71,7 +71,7 @@ const Dashboard = () => {
         { name: 'Samsung 24inch TV', img: 'https://z9d7c4u6.rocketcdn.me/wp-content/uploads/2018/04/white-electronics-product-2.jpg', path: ''},
         { name: 'Dell i3 Laptop', img: 'https://z9d7c4u6.rocketcdn.me/wp-content/uploads/2018/04/white-electronics-product-1.jpg', path: ''},
         { name: 'Dell i5 Laptop', img: 'https://z9d7c4u6.rocketcdn.me/wp-content/uploads/2018/04/white-electronics-product-3.jpg', path: ''},
-        { name: 'Dell i7 Laptop', img: 'https://z9d7c4u6.rocketcdn.me/wp-content/uploads/2018/04/white-electronics-product-7.jpg', path: ''}
+    
     ]
 
   return (

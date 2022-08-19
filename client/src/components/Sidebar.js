@@ -3,8 +3,10 @@ import { grey } from '@material-ui/core/colors'
 import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ExpandMore, ForumOutlined, KeyboardArrowRight, LocalMallOutlined, PlayCircleFilled, SettingsOutlined, } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import User from '../assets/user.png'
+import { logoutUser, successModal } from '../actions/actions'
+import Modal from './Modal'
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -84,6 +86,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 const Sidebar = (props) => {
+    const { currentUser } = props
     const classes = useStyles(props)
     const path = useLocation().pathname.split('/')[1]
     const [ open, setOpen ] = useState(false)
@@ -98,10 +101,18 @@ const Sidebar = (props) => {
         window.location.assign(`/${val}`)
     }
 
+    const Logout = ()=> {
+        props.successModal('Buzzing you out. Hold on..')
+        setTimeout(() => {
+            props.logoutUser()
+        }, 500);
+    }
+
 
 
   return (
     <div className={classes.wrapper}>
+        {props.modal && <Modal status={props.modal.status} />}
         <Box padding='1.5rem'>
             <Typography className={classes.logo} variant='h5'>hive<span>Afrika.</span></Typography>
         </Box>
@@ -142,7 +153,7 @@ const Sidebar = (props) => {
             </ListItem>
             <ListItem className={`${classes.menuItem} ${path === 'settings' && classes.active}` } onClick={()=> navLinks('settings')}>
                 <ListItemIcon> <SettingsOutlined fontSize='small' /> </ListItemIcon>
-                <ListItemText><Typography color='textSecondary'>Settings</Typography> </ListItemText>
+                <ListItemText><Typography color='textSecondary'>Account</Typography> </ListItemText>
             </ListItem>
         </List>
         <Divider style={{margin: '0 1.5rem', background: '#ffffff33'}} light />
@@ -161,13 +172,13 @@ const Sidebar = (props) => {
         <Box padding={'1rem'}></Box>
         {/* User Profile */}
         <Box padding='1rem' textAlign={'center'} bgcolor='#256d945c' color='#fff' margin={'1rem'} marginTop='auto' borderRadius='15px'>
-            <Avatar src={User} alt='user-img' className={classes.large} />
-            <Typography style={{fontWeight: 500, fontSize: '1rem'}} noWrap>Jeremiah Mills</Typography>
-            <Typography variant='body2' style={{color: '#ffffff70'}} noWrap>jeremiah@hiveafrika.com</Typography>
-            <Typography variant='body2' style={{color: '#ffffff70'}} >superadmin</Typography>
+            <Avatar src={ currentUser && currentUser.photo ? currentUser.photo : null } alt='user-img' className={classes.large} />
+            <Typography style={{fontWeight: 500, fontSize: '1rem'}} noWrap>{currentUser && currentUser.fullname}</Typography>
+            <Typography variant='body2' style={{color: '#ffffff70'}} noWrap>{currentUser && currentUser.email}</Typography>
+            <Typography variant='body2' style={{color: '#ffffff70'}} >Administrator</Typography>
             <span style={{marginTop: '1rem', display: 'block' }}>
                 <IconButton className={classes.iconBtn} style={{marginLeft: 0}}> <ForumOutlined /> </IconButton>
-                <IconButton className={classes.iconBtn}> <ExitToApp /> </IconButton>
+                <IconButton onClick={Logout} className={classes.iconBtn}> <ExitToApp /> </IconButton>
             </span>
         </Box>
         <Box padding={'.2rem'}></Box>
@@ -177,4 +188,8 @@ const Sidebar = (props) => {
   )
 }
 
-export default Sidebar
+const mapStateToProps = (state) => {
+    return state
+}
+
+export default connect(mapStateToProps, {logoutUser, successModal})(Sidebar)

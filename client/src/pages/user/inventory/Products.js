@@ -1,16 +1,17 @@
 import { Box, Button, Divider, Grid, Hidden, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { KeyboardArrowDown, Search, ViewModule, List } from '@material-ui/icons'
+import { KeyboardArrowDown, Search, ViewModule, List, Tune, SaveAlt } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductItem from '../../../components/ProductItem'
 import Launch from '../../../assets/rocket.png'
 
 
  const useStyles = makeStyles(theme => ({
     root : {
+        position: 'relative',
         '& .MuiOutlinedInput-root': {
-            borderRadius: '9px'
+            borderRadius: '6px'
         }
     },
     filter : {
@@ -34,19 +35,52 @@ import Launch from '../../../assets/rocket.png'
     },
     btn: {
         textTransform:'none', 
-        borderRadius: '10px', 
-        height: '2.5rem' 
+        borderRadius: '6px', 
+        height: '2.5rem' ,
+        border: '1px solid lightgrey',
+        marginLeft: '5px'
     },
     iconBtn: {
         fontSize: '1.6rem',
         borderRadius: '10px', 
 
+    },
+    floatBtn: {
+        color:'#fff',
+        textTransform:'none', 
+        borderRadius: '10px', 
+        height: '3.0rem',
+        position: 'fixed',
+        bottom: '-12%',
+        right: '3%',
+        zIndex: 80,
+        transition: 'all .5s ease',
+        opacity: 0
+    },
+    active: {
+        opacity: 1,
+        bottom: '5%'
     }
  }))
 
 const Products = (props) => {
     const classes = useStyles()
+    const [scroll, setScroll] = useState(0)
     const products = []
+
+    const showBtn = () => {
+        setScroll(window.scrollY)
+    }
+
+    useEffect(()=>{
+        const pageScroll = () => {
+            window.addEventListener('scroll', showBtn)
+        }
+        pageScroll()
+        return () => {
+            window.removeEventListener('scroll', showBtn)
+        }
+    },[])
 
 
   return (
@@ -56,15 +90,20 @@ const Products = (props) => {
             <>
                 {/* SEARCH & FILTER */}
                 <Box className={classes.filter}>
-                    <TextField style={{flex: 1.5, outline: 'none', border: 'none'}} size='small' fullWidth variant='outlined' className={classes.search} InputProps={{ startAdornment: <InputAdornment><Search className={classes.icon} size='small' /></InputAdornment> }} placeholder='Search products by name or keyword' />
+                    <TextField style={{flex: 1.5, outline: 'none', border: 'none',marginRight: '10px'}} size='small' fullWidth variant='outlined' className={classes.search} 
+                        InputProps={{ startAdornment: <InputAdornment position='start'><Search className={classes.icon} size='small' /></InputAdornment> }} 
+                        placeholder='Search products by name or keyword' 
+                    />
                     <span id='filter'>
-                        <Hidden mdDown>
-                            <Typography>Showing <span style={{color: 'red'}}>(20)</span> results</Typography> 
+                        <Hidden smDown>
+                            <Button className={classes.btn} endIcon={<KeyboardArrowDown />} variant='text' disableElevation ><Typography>Category</Typography> </Button>
+                            <Button className={classes.btn} endIcon={<KeyboardArrowDown />} variant='text' disableElevation ><Typography>Brand</Typography> </Button>
+                            <IconButton style={{borderRadius: '10px', padding: '6px'}} ><List className={classes.iconBtn} /></IconButton>
+                            <IconButton style={{borderRadius: '10px', padding: '6px'}} ><ViewModule className={classes.iconBtn} /></IconButton>
                         </Hidden>
-                        <Divider />
-                        <Button className={classes.btn} endIcon={<KeyboardArrowDown />} variant='text' disableElevation ><Typography>Sort By</Typography> </Button>
-                        <IconButton style={{borderRadius: '10px', padding: '6px'}} ><List className={classes.iconBtn} /></IconButton>
-                        <IconButton style={{borderRadius: '10px', padding: '6px'}} ><ViewModule className={classes.iconBtn} /></IconButton>
+                        <Hidden mdUp>
+                            <Button className={classes.btn} endIcon={<Tune />} variant='text' disableElevation ><Typography>Filters</Typography> </Button>
+                        </Hidden>
                     </span>
                 </Box>
 
@@ -90,6 +129,10 @@ const Products = (props) => {
                 <Button variant='contained' onClick={() => props.add()} size='large' disableElevation color='primary' style={{color: '#fff', marginTop: '1rem', borderRadius: '8px'}}>Add Product</Button>
             </Box>
         }
+
+       
+        <Button startIcon={<SaveAlt />} variant='contained' className={`${classes.floatBtn} ${ scroll > 160 ? classes.active : null}`} color='secondary'
+        disableElevation onClick={() => props.add()}>Add Product</Button>
         
 
 

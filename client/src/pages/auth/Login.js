@@ -7,11 +7,15 @@ import { grey } from '@material-ui/core/colors'
 import Colors from '../../assets/colors.jpg'
 import { connect } from 'react-redux'
 import Modal from '../../components/Modal'
-import { errorModal, userLogin } from '../../actions/actions'
+import { errorModal, userLogin, successModal } from '../../actions/actions'
 
 
 const useStyles = makeStyles( theme => ({
+    root: {
+        background: '#fff'
+    },
     logo : {
+        fontSize: '1.2rem',
         fontWeight: 300,
         '& span': {
             fontWeight: 700,
@@ -37,7 +41,7 @@ const useStyles = makeStyles( theme => ({
     },
     banner : {
         height: '100%',
-        backgroundImage: `linear-gradient(45deg, rgba(0,0,0, 90%), rgba(0,0,0, 20%)), url(${Colors})`,
+        backgroundImage: `linear-gradient(45deg, rgba(0,0,0, 70%), rgba(0,0,0, 20%)), url(${Colors})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
     }
@@ -46,13 +50,14 @@ const useStyles = makeStyles( theme => ({
 const Login = (props) => {
     const classes = useStyles()
     const [show, setShow] = useState(false)
+    const [disable, setDisable] = useState(false)
 
     const reducerFn = (state, action) => {
         switch (action.type) {
             case "EMAIL":
-                return {...state, email: action.payload}
+                return {...state, email: action.payload.trim().toLowerCase()}
             case "PASSWORD":
-                return {...state, password: action.payload}
+                return {...state, password: action.payload.trim()}
             case "RESET":
                 return {email: '',password:'' }
             default:
@@ -68,24 +73,38 @@ const Login = (props) => {
             props.errorModal('Invalid. Provide a valid email address')
             return
         }
-        if(formInput.password === '' || !formInput.email.length < 6){
-            props.errorModal('Invalid. Password must be more than 6 characters')
+        if(formInput.password === '' || formInput.email.length < 8){
+            props.errorModal('Invalid. Password must be more than 8 characters')
             return
         }
 
         // call action creator
-        props.userLogin(formInput)
+        props.successModal('Buzzing you in. Hold on..')
+        setDisable(true)
+
+        setTimeout(async() => {
+            const res = await props.userLogin(formInput)
+            if(res.status === 'success'){
+                dispatch({type: 'RESET'})
+                setDisable(false)
+            }else{
+                setDisable(false)
+                props.errorModal(res.message)
+            }
+        }, 1000);
+       
     }
 
   return (
 
-    <div>
+    <div className={classes.root}>
         {/* Modal */}
         {props.modal && <Modal status={props.modal.status} /> }
         <Grid container style={{height: '100vh' }} >
             <Grid item lg={5} md={6} sm={12}>
                 <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 5rem', height:'100%' }}>
                     <Box>
+                        <img src={'https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png'} alt='logo' width='15%' />
                         <Typography variant='h5' className={classes.logo} >hive<span>Afrika.</span> </Typography>
                     </Box>
 
@@ -98,9 +117,9 @@ const Login = (props) => {
                                 endAdornment: <InputAdornment position='end'><Email className={classes.fieldIcon} /> </InputAdornment>
                             }} />
                             <TextField className={classes.field} type={show ? 'text' : 'password'} value={formInput.password} onChange={(e)=> dispatch({type: "PASSWORD", payload: e.target.value})} variant='outlined' fullWidth label='Password' InputProps={{
-                                endAdornment: <InputAdornment position='end'> { show ? <Visibility className={classes.fieldIcon} onClick={()=> setShow(!show)} /> : <VisibilityOff className={classes.fieldIcon} onClick={()=> setShow(!show)} /> } </InputAdornment>
+                                endAdornment: <InputAdornment position='end'> { show ? <Visibility className={classes.fieldIcon} style={{cursor: 'pointer'}} onClick={()=> setShow(!show)} /> : <VisibilityOff className={classes.fieldIcon} style={{cursor: 'pointer'}} onClick={()=> setShow(!show)} /> } </InputAdornment>
                             }} />
-                            <Button className={classes.btn} type={'submit'} disableElevation variant='contained' color='secondary' fullWidth endIcon={<ArrowForward />}>Buzz in</Button>
+                            <Button className={classes.btn} type={'submit'} disabled={disable} disableElevation variant='contained' color='secondary' fullWidth endIcon={<ArrowForward />}>Buzz in</Button>
                             <Typography variant='body2' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/auth/forgotpassword'>Forgot password</Link></Typography> 
                         </form>
 
@@ -155,8 +174,8 @@ const Login = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    //console.log(state)
     return state
 }
 
-export default connect(mapStateToProps, {errorModal, userLogin})(Login)
+export default connect(mapStateToProps, {errorModal, userLogin, successModal})(Login)

@@ -1,24 +1,24 @@
-exports.registerMessage = (req, title, copy, username, code) => {
-  return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
-    <div style="background: white">
-        <div style=" padding: 30px; background: #3f5176; text-align: center">
-            <img style="margin-bottom: -1rem" src="https://ci3.googleusercontent.com/proxy/Ns0PoUW1mjQ45hmqVHePBzYPbNcILJfxt2phVMh6F9OoU0yaqybKasIwZa0wvoJqnub0iLmwzIxuMT8oabxL3cLkSGwIKTDCaGraYYM=s0-d-e1-ft#https://media2.giphy.com/media/Wt4byHTpeY3lHaoHzQ/200w.gif" alt="Animated Pinch Emoji" width="135" class="CToWUd">
-            <h3 style="margin: 0;font-weight: 100; font-size: 24px; color: white">${title}</h3> 
-        </div>
+exports.registerMessage = (req, title, name, copy, link) => {
+    return `
+        <div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
+        <img src='https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png' alt='logo' width='22%' style="display: block; margin: 0 auto" />
+        <h3 style="line-height: initial; font-weight: 300; font-size: 18px; text-align: center; margin-top: 8px;">${title}</h3> 
+        <div style="height: 7rem; background-position: top; border-radius: 7px; background-image: url('https://res.cloudinary.com/hiveafrika/image/upload/v1659887218/Assets/colors_mrlpv4.jpg'); background-size: cover;"></div>
         \n
-        <div style=" padding: 20px;">
-            \n <p style="font-size: 15px">Hi ${username},</p>
-            \n
-            \n <p style="font-size: 15px">${copy}</p>
-            \n
-                <a style="display: inline-block; cursor: pointer; border: none; padding: 17px;text-decoration: none; background: orange; color: white;" 
-                href="http://localhost:3000/auth/verify?token=${code}" target="_blank">Activate Email Address</a>
+        \n <p style="font-size: 18px; font-weight: 500">Hello ${name},</p>
+        \n <p style="font-size: 15px">${copy}</p>
+        \n
+            <div style="display: block; border-radius: 5px; text-align: center; border: none; padding: 17px; text-decoration: none; background: #dcdcdc; color: black;">
+                <h4 style="font-weight: 300; font-size: 24px; margin: 0">${link}</h4>
+            </div>
+        \n
+        \n <h3 style="font-weight: 500; font-size: 20px; margin-bottom: -10px;">That wasn't me!</h3> 
+        \n<p style="font-size: 15px">If the above sign-in attempt wasn't you, please <a href='#'>reset your password</a> and enable 2-factor authentication (2FA) as soon as possible to safeguard your account.</p>
+        \n
+        \n
         </div>
-
-    </div>
-<div>
-    `;
-};
+    `
+}
 
 exports.loginVerificationMessage = (title, copy) => {
   return `<div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
