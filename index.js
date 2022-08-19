@@ -8,7 +8,11 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto')
 
+
+//Routers
 const userRouter = require('./routers/userRouter')
+const categoryRouter = require('./routers/categoryRouter')
+const productRouter = require('./routers/productRouter')
 
  
 //Parsers //
@@ -27,6 +31,8 @@ app.use(cookieParser());
 
 // All Routes default //
 app.use(userRouter)
+app.use(categoryRouter)
+app.use(productRouter)
 
 // Static Files //
 

@@ -4,7 +4,7 @@ import axios from 'axios'
 export const authRequest = () => {
     return async(dispatch) => {
         try {
-            const res = await axios.get("/auth/request");
+            const res = await axios.get('/hive/authRequest');
             //console.log(res)
             if (res.data.status === "user found") {
               dispatch({ type: "NEW_USER", payload: res.data.data });
@@ -28,54 +28,90 @@ export const authRequest = () => {
 // USER SIGNUP
 export const userSignup = (data) => {
     return async(dispatch) => {
-        dispatch(successModal('Building your new hive...'))
         try {
             const res = await axios.post('/hive/signup', data)
-            if(res.data.status === 'success'){
-                dispatch({type: "NEW_USER", payload: res.data.data});
-                dispatch(successModal('Your hive is ready!!'));
-                setTimeout(()=>{
-                    window.location.assign('/')
-                })
-            }
+            dispatch({type: "NEW_USER", payload: res.data.data});
+            return res.data
+
         } catch (error) {
-            // console.log(error.response);
-            if (
-                error.response.data.status === "failed" &&
-                error.response.data.error.code === 11000
-            ) {
-                const errMessage = `Sorry, ${Object.keys(
-                error.response.data.error.keyValue
-                )} is already taken.`;
-                dispatch(errorModal(errMessage));
-            }
-            if (
-                error.response.data.status === "failed" &&
-                error.response.data.error.name === "ValidationError"
-            ) {
-                const errMessage = error.response.data.message.split(":")[2].trim();
-                dispatch(errorModal(errMessage));
-            }
+            console.log(error.response);
+            return error.response.data
         }
     }
 }
+
+// VERIFY USER
+export const verifyUserEmail = (data) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post("/hive/verifyUser", data);
+      if(res.data.status === 'success'){
+       dispatch(successModal('Email verification successful. Please wait...'))
+       setTimeout(() => {
+        window.location.reload()
+       }, 1000);
+      }
+    } catch (error) {
+      //console.log(error.response)
+      dispatch(errorModal(error.response.data.message));
+    }
+  };
+};
+
+// RESEND EMAIL VERIFICATION
+export const resendUserEmailVerification = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get("/hive/resendEmailVerification");
+      if(res.data.status === 'success'){
+       dispatch(successModal('Verification email sent. Please check your inbox'))
+      }
+    } catch (error) {
+      //console.log(error.response)
+      dispatch(errorModal('Sorry, could not send email. Please try again'));
+    }
+  };
+};
+
+
+// SMS VERIFY //
+export const verifySMS = (data) => {
+  return async () => {
+    try {
+      const res = await axios.post("/hive/verifySMS", data);
+      return res.data
+
+    } catch (error) {
+      //console.log(error.response)
+      return error.response.data
+    }
+  };
+};
+
+export const resendSMS = (data) => {
+  return async () => {
+    try {
+      const res = await axios.get("/hive/resendSMS");
+      return res.data
+
+    } catch (error) {
+      //console.log(error.response)
+      return error.response.data
+    }
+  };
+};
 
 // USER LOGIN
 export const userLogin = (data) => {
     return async(dispatch) => {
         try {
             const res = await axios.post('/hive/login', data);
-            if (res.data.status === "success") {
-                dispatch(successModal("Login successful..."));
-                setTimeout(() => {
-                  dispatch({ type: "LOGIN_USER", payload: res.data.data });
-                }, 1000);
-            }
+            dispatch({ type: "LOGIN_USER", payload: res.data.data });
+            return res.data
+
         } catch (error) {
-            console.log(error.response);
-            if (error.response.data.status === "failed") {
-                dispatch(errorModal(error.response.data.message));
-            }
+            //console.log(error.response);
+            return error.response.data
         }
     }
 }
@@ -116,7 +152,7 @@ export const resetUserPassword = (token, data) => {
 export const logoutUser = () => {
     return async (dispatch) => {
       try {
-        const res = await axios.delete("/auth/logout");
+        const res = await axios.delete("/hive/logout");
         if (res.data.status === "success") {
           dispatch({ type: "LOGOUT_USER" });
           window.location.assign("/");
