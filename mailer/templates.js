@@ -1,7 +1,7 @@
-exports.registerMessage = (req, title, name, copy, link) => {
+exports.registerMessage = (title, name, copy, code) => {
     return `
         <div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
-        <img src='https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png' alt='logo' width='22%' style="display: block; margin: 0 auto" />
+        <img src='https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png' alt='logo' width='20%' style="display: block; margin: 0 auto" />
         <h3 style="line-height: initial; font-weight: 300; font-size: 18px; text-align: center; margin-top: 8px;">${title}</h3> 
         <div style="height: 7rem; background-position: top; border-radius: 7px; background-image: url('https://res.cloudinary.com/hiveafrika/image/upload/v1659887218/Assets/colors_mrlpv4.jpg'); background-size: cover;"></div>
         \n
@@ -9,7 +9,7 @@ exports.registerMessage = (req, title, name, copy, link) => {
         \n <p style="font-size: 15px">${copy}</p>
         \n
             <div style="display: block; border-radius: 5px; text-align: center; border: none; padding: 17px; text-decoration: none; background: #dcdcdc; color: black;">
-                <h4 style="font-weight: 300; font-size: 24px; margin: 0">${link}</h4>
+                <h4 style="font-weight: 300; font-size: 24px; margin: 0">${code}</h4>
             </div>
         \n
         \n <h3 style="font-weight: 500; font-size: 20px; margin-bottom: -10px;">That wasn't me!</h3> 
@@ -21,7 +21,7 @@ exports.registerMessage = (req, title, name, copy, link) => {
 }
 
 exports.loginVerificationMessage = (title, copy) => {
-  return `<div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
+    return `<div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
     <h3 style="font-weight: 100; font-size: 24px">${title}</h3> 
     \n
     \n <p style="font-size: 15px">${copy}</p>
@@ -29,8 +29,22 @@ exports.loginVerificationMessage = (title, copy) => {
     `;
 };
 
+exports.genericMessage = (title, name, copy) => {
+    return `
+        <div style="min-width: 300px;max-width: 500px; margin: 0 auto; border: 1px solid orange; font-family: 'Google Sans'; padding: 20px; background: white">
+        <img src='https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png' alt='logo' width='20%' style="display: block; margin: 0 auto" />
+        <h3 style="line-height: initial; font-weight: 300; font-size: 18px; text-align: center; margin-top: 8px;">${title}</h3> 
+        <div style="height: 7rem; background-position: top; border-radius: 7px; background-image: url('https://res.cloudinary.com/hiveafrika/image/upload/v1659887218/Assets/colors_mrlpv4.jpg'); background-size: cover;"></div>
+        \n
+        \n <p style="font-size: 18px; font-weight: 500">Hello ${name},</p>
+        \n <p style="font-size: 15px">${copy}</p>
+        \n
+        </div>
+    `
+}
+
 exports.newUserVerificationMessage = (req, title, copy) => {
-  return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
+    return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
                 <div style="background: white">
                     <div style=" padding: 20px; background: #3f5176">
                         <h3 style="font-weight: 100; font-size: 24px; color: white">${title}</h3> 
@@ -49,7 +63,7 @@ exports.newUserVerificationMessage = (req, title, copy) => {
 };
 
 exports.newAccountCreationMessage = (req, title, copy) => {
-  return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
+    return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
                 <div style="background: white">
                     <div style=" padding: 20px; background: #3f5176">
                         <h3 style="font-weight: 100; font-size: 24px; color: white">${title}</h3> 
@@ -67,7 +81,7 @@ exports.newAccountCreationMessage = (req, title, copy) => {
 };
 
 exports.approvalRequestMessage = (req, title, copy) => {
-  return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
+    return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
                 <div style="background: white">
                     <div style=" padding: 20px; background: #3f5176">
                         <h3 style="font-weight: 100; font-size: 24px; color: white">${title}</h3> 
@@ -88,7 +102,7 @@ exports.approvalRequestMessage = (req, title, copy) => {
 };
 
 exports.userApprovalMessage = (req, title, copy) => {
-  return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
+    return `<div style="font-family: 'Google Sans'; padding: 20px; background: #dfdfdf;min-width: 300px; max-width: 500px; margin: 0 auto;">
                 <div style="background: white">
                     <div style=" padding: 20px; background: #3f5176">
                         <h3 style="font-weight: 100; font-size: 24px; color: white">${title}</h3> 

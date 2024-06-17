@@ -12,7 +12,10 @@ import { errorModal, userLogin, successModal } from '../../actions/actions'
 
 const useStyles = makeStyles( theme => ({
     root: {
-        background: '#fff'
+        background: '#fff',
+        '& .MuiOutlinedInput-root': {
+            borderRadius: '10px'
+        }
     },
     logo : {
         fontSize: '1.2rem',
@@ -30,14 +33,15 @@ const useStyles = makeStyles( theme => ({
         }
     },
     field : {
-        marginBottom: '1.8rem'
+        marginBottom: '1.8rem',
     },
     fieldIcon : {
         color: grey[400]
     },
     btn : {
-        height: '3.2rem',
-        marginBottom: '1rem'
+        height: '3.5rem',
+        marginBottom: '1rem',
+        borderRadius: '10px'
     },
     banner : {
         height: '100%',
@@ -102,7 +106,7 @@ const Login = (props) => {
         {props.modal && <Modal status={props.modal.status} /> }
         <Grid container style={{height: '100vh' }} >
             <Grid item lg={5} md={6} sm={12}>
-                <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 5rem', height:'100%' }}>
+                <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 8rem', height:'100%' }}>
                     <Box>
                         <img src={'https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png'} alt='logo' width='15%' />
                         <Typography variant='h5' className={classes.logo} >hive<span>Afrika.</span> </Typography>
@@ -113,14 +117,14 @@ const Login = (props) => {
                         <Typography color='textSecondary' style={{marginBottom: '2rem'}}>Don't have a hive? Lets build you one. <Link href='/signup'>Signup</Link></Typography>
 
                         <form onSubmit={onFormSubmit}>
-                            <TextField className={classes.field} variant='outlined' fullWidth label='Email' value={formInput.email} onChange={(e)=> dispatch({type: "EMAIL", payload: e.target.value})} InputProps={{
+                            <TextField size='medium' className={classes.field} variant='outlined' fullWidth label='Email' value={formInput.email} onChange={(e)=> dispatch({type: "EMAIL", payload: e.target.value})} InputProps={{
                                 endAdornment: <InputAdornment position='end'><Email className={classes.fieldIcon} /> </InputAdornment>
                             }} />
-                            <TextField className={classes.field} type={show ? 'text' : 'password'} value={formInput.password} onChange={(e)=> dispatch({type: "PASSWORD", payload: e.target.value})} variant='outlined' fullWidth label='Password' InputProps={{
+                            <TextField size='medium' className={classes.field} type={show ? 'text' : 'password'} value={formInput.password} onChange={(e)=> dispatch({type: "PASSWORD", payload: e.target.value})} variant='outlined' fullWidth label='Password' InputProps={{
                                 endAdornment: <InputAdornment position='end'> { show ? <Visibility className={classes.fieldIcon} style={{cursor: 'pointer'}} onClick={()=> setShow(!show)} /> : <VisibilityOff className={classes.fieldIcon} style={{cursor: 'pointer'}} onClick={()=> setShow(!show)} /> } </InputAdornment>
                             }} />
                             <Button className={classes.btn} type={'submit'} disabled={disable} disableElevation variant='contained' color='secondary' fullWidth endIcon={<ArrowForward />}>Buzz in</Button>
-                            <Typography variant='body2' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/auth/forgotpassword'>Forgot password</Link></Typography> 
+                            <Typography variant='body1' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/auth/forgotpassword'>Forgot password</Link></Typography> 
                         </form>
 
                     </Box>

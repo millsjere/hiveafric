@@ -12,7 +12,10 @@ import { userSignup, successModal, errorModal } from '../../actions/actions'
 
 const useStyles = makeStyles( theme => ({
     root: {
-        background: '#fff'
+        background: '#fff',
+        '& .MuiOutlinedInput-root': {
+            borderRadius: '10px'
+        }
     },
     logo : {
         fontSize: '1.2rem',
@@ -36,8 +39,9 @@ const useStyles = makeStyles( theme => ({
         color: grey[400]
     },
     btn : {
-        height: '3.2rem',
-        margin: '1rem 0'
+        height: '3.5rem',
+        margin: '1rem 0',
+        borderRadius: '10px'
     },
     banner : {
         height: '100%',
@@ -184,7 +188,7 @@ const Signup = (props) => {
             </Hidden>
 
             <Grid item lg={5} md={6} sm={12}>
-                <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 5rem', height:'100%' }}>
+                <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '3rem 8rem', height:'100%' }}>
                     <Box>
                     <img src={'https://res.cloudinary.com/hiveafrika/image/upload/v1659887796/Assets/HiveAfrica-Logo_htot27.png'} alt='logo' width='15%' />
                         <Typography variant='h5' className={classes.logo} >hive<span>Afrika.</span> </Typography>
@@ -241,7 +245,7 @@ const Signup = (props) => {
                             </Grid>
 
                             <Button className={classes.btn} type={'submit'} disabled={disable} disableElevation variant='contained' color='secondary' fullWidth endIcon={<ArrowForward />}>Sign up</Button>
-                            <Typography variant='body2' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/forgotpassword'>Forgot password</Link></Typography> 
+                            {/* <Typography variant='body1' style={{textAlign: 'center'}} color='textSecondary'>Can't find my hive. <Link href='/forgotpassword'>Forgot password</Link></Typography>  */}
                         </form>
 
                     </Box>

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Hidden, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Hidden, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import { KeyboardArrowDown, Search, ViewModule, List, Tune, SaveAlt } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
@@ -122,11 +122,31 @@ const Products = (props) => {
                 </Box>
             </>
             :
-            <Box padding={'5rem'} textAlign='center'>
-                <img src={Launch} alt='launch' width='25%' style={{marginBottom: '1.5rem'}} />
-                <Typography variant='h6'>Manage Your Inventory</Typography>
-                <Typography variant='body1' color='textSecondary'>This is where you manage your products. You have 0 products</Typography>
-                <Button variant='contained' onClick={() => props.add()} size='large' disableElevation color='primary' style={{color: '#fff', marginTop: '1rem', borderRadius: '8px'}}>Add Product</Button>
+            <Box padding={'5rem'} textAlign='center' bgcolor={'#fff'} borderRadius='20px'>
+                <img src={Launch} alt='launch' width='25%' style={{marginBottom: '2.5rem'}} />
+
+                <Grid container spacing={3}>
+                    <Grid item sm={6}>
+                        <Card variant='outlined' style={{borderRadius: '10px'}}>
+                            <CardContent style={{padding: '2rem'}}>
+                                <Avatar style={{margin: '0 auto', marginBottom: '1rem'}}>1</Avatar>
+                                <Typography variant='h6'>Product Settings</Typography>
+                                <Typography variant='body1' color='textSecondary'>Provide settings (currency and more) for your products.</Typography>
+                                <Button variant='contained' onClick={() => props.add()} size='large' disableElevation color='primary' style={{color: '#fff', marginTop: '1rem', borderRadius: '8px'}}>Go To Settings</Button>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item sm={6}>
+                        <Card variant='outlined'  style={{borderRadius: '10px'}}> 
+                            <CardContent style={{padding: '2rem'}}>
+                                <Avatar style={{margin: '0 auto', marginBottom: '1rem'}}>2</Avatar>
+                                <Typography variant='h6'>Add Products</Typography>
+                                <Typography variant='body1' color='textSecondary'>Add products to manage your inventory and stores</Typography>
+                                <Button variant='contained' onClick={() => props.add()} size='large' disableElevation color='primary' style={{color: '#fff', marginTop: '1rem', borderRadius: '8px'}}>Add Product</Button>
+                            </CardContent>   
+                        </Card>
+                    </Grid>
+                </Grid>
             </Box>
         }
 

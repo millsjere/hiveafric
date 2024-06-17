@@ -77,7 +77,7 @@ const Verify = (props) => {
   const [disable, setDisable] = useState(true)
 
   useEffect(()=>{
-    if(code.length === 6){
+    if(code.length === 5 || code.length === 6){
       setDisable(false)
     }else{
       setDisable(true)

@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     },
     productDrawer: {
         width: '35rem',
-        padding: '2.3rem',
+        padding: '2.3rem 3.5rem',
         '& .MuiOutlinedInput-root' : {
             borderRadius: '9px'
         }
@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
     },
     media: {
        marginTop: '.5rem',
-       marginBottom: '1.2rem',
+       marginBottom: '1.8rem',
        border: `1px dashed ${grey[400]}`,
        borderRadius: '6px',
        padding: '2rem',

@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axiosInstance from "../api/axios";
 
 // GET AUTH
 export const authRequest = () => {
     return async(dispatch) => {
         try {
-            const res = await axios.get('/hive/authRequest');
+            const res = await axiosInstance.get('/hive/authRequest');
             //console.log(res)
             if (res.data.status === "user found") {
               dispatch({ type: "NEW_USER", payload: res.data.data });
@@ -29,7 +29,7 @@ export const authRequest = () => {
 export const userSignup = (data) => {
     return async(dispatch) => {
         try {
-            const res = await axios.post('/hive/signup', data)
+            const res = await axiosInstance.post('/hive/signup', data)
             dispatch({type: "NEW_USER", payload: res.data.data});
             return res.data
 
@@ -44,7 +44,7 @@ export const userSignup = (data) => {
 export const verifyUserEmail = (data) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post("/hive/verifyUser", data);
+      const res = await axiosInstance.post("/hive/verifyUser", data);
       if(res.data.status === 'success'){
        dispatch(successModal('Email verification successful. Please wait...'))
        setTimeout(() => {
@@ -62,7 +62,7 @@ export const verifyUserEmail = (data) => {
 export const resendUserEmailVerification = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("/hive/resendEmailVerification");
+      const res = await axiosInstance.get("/hive/resendEmailVerification");
       if(res.data.status === 'success'){
        dispatch(successModal('Verification email sent. Please check your inbox'))
       }
@@ -78,7 +78,7 @@ export const resendUserEmailVerification = () => {
 export const verifySMS = (data) => {
   return async () => {
     try {
-      const res = await axios.post("/hive/verifySMS", data);
+      const res = await axiosInstance.post("/hive/verifySMS", data);
       return res.data
 
     } catch (error) {
@@ -91,7 +91,7 @@ export const verifySMS = (data) => {
 export const resendSMS = (data) => {
   return async () => {
     try {
-      const res = await axios.get("/hive/resendSMS");
+      const res = await axiosInstance.get("/hive/resendSMS");
       return res.data
 
     } catch (error) {
@@ -105,7 +105,7 @@ export const resendSMS = (data) => {
 export const userLogin = (data) => {
     return async(dispatch) => {
         try {
-            const res = await axios.post('/hive/login', data);
+            const res = await axiosInstance.post('/hive/login', data);
             dispatch({ type: "LOGIN_USER", payload: res.data.data });
             return res.data
 
@@ -119,7 +119,7 @@ export const userLogin = (data) => {
 export const forgotUserPassword = (data) => {
     return async (dispatch) => {
       try {
-        const res = await axios.post("/hive/forgotpassword", data);
+        const res = await axiosInstance.post("/hive/forgotpassword", data);
         if(res.data.status === 'success'){
          dispatch(successModal('Reset email sent to your inbox'))
         }
@@ -134,7 +134,7 @@ export const forgotUserPassword = (data) => {
 export const resetUserPassword = (token, data) => {
     return async (dispatch) => {
       try {
-        const res = await axios.patch(`/hive/resetpassword/${token}`, data);
+        const res = await axiosInstance.patch(`/hive/resetpassword/${token}`, data);
         if(res.data.status === 'success'){
          dispatch(successModal('Password reset successful. Please login'))
          setTimeout(()=>{
@@ -152,7 +152,7 @@ export const resetUserPassword = (token, data) => {
 export const logoutUser = () => {
     return async (dispatch) => {
       try {
-        const res = await axios.delete("/hive/logout");
+        const res = await axiosInstance.delete("/hive/logout");
         if (res.data.status === "success") {
           dispatch({ type: "LOGOUT_USER" });
           window.location.assign("/");

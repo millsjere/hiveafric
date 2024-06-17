@@ -18,9 +18,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        select: false
     },
     phone: {
         type: String,
+        unique: true,
         required: true
     },
     company: {
@@ -31,40 +33,42 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    verificationCode: String,
-    emailVerificationToken: String,
-    isEmailVerified: { type: Boolean, default: false},
-    resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date },
-},{
+    isLoginVerified: { type: Boolean, default: false },
+    verificationCode: { type: String, select: false },
+    verificationCodeExpiry: { type: Date, select: false },
+    isEmailVerified: { type: Boolean, default: false },
+    isFirstTime: { type: Boolean, default: true },
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
+}, {
     timestamps: true,
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true}
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
 //SENDBACK THE USER OBJECT TO THE CLIENT WITHOUT THE USER PASSWORD
-userSchema.methods.toJSON = function(){
+userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
     delete userObject.password;
     return userObject;
-  }
+}
 
 // INSTANCE METHOD - Made available on user doc after db query
-userSchema.methods.activateEmail = function () {
-    const activationToken = Math.random().toString(36).slice(2,8)
-    this.emailVerificationToken = crypto
-      .createHash("sha256")
-      .update(activationToken)
-      .digest("hex");
-  
-      console.log(this.emailVerificationToken)
-      console.log(activationToken)
-    return activationToken;
-  };
+// userSchema.methods.activateEmail = function () {
+//     const activationToken = Math.random().toString(36).slice(2, 8)
+//     this.emailVerificationToken = crypto
+//         .createHash("sha256")
+//         .update(activationToken)
+//         .digest("hex");
 
-  userSchema.virtual('fullname').get(function(){
-    const fullname = this.firstname + " " + this.lastname 
+//     console.log(this.emailVerificationToken)
+//     console.log(activationToken)
+//     return activationToken;
+// };
+
+userSchema.virtual('fullname').get(function () {
+    const fullname = this.firstname + " " + this.lastname
     return fullname
 })
 
@@ -75,9 +79,9 @@ userSchema.pre("save", function (next) {
         this.firstname.substring(1).toLowerCase();
 
     this.lastname =
-        this.lastname[0].toUpperCase() + 
+        this.lastname[0].toUpperCase() +
         this.lastname.substring(1).toLowerCase()
-  
+
     next();
 });
 
@@ -86,12 +90,12 @@ userSchema.virtual('categories', {
     ref: 'Category',
     localField: '_id',
     foreignField: 'user'
-  });
+});
 
 userSchema.virtual('products', {
-ref: 'Product',
-localField: '_id',
-foreignField: 'user'
+    ref: 'Product',
+    localField: '_id',
+    foreignField: 'user'
 });
 
 const User = mongoose.model('User', userSchema)

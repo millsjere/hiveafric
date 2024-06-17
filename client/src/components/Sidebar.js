@@ -1,6 +1,6 @@
-import { Avatar, Box, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, Collapse, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ExpandMore, ForumOutlined, KeyboardArrowRight, LocalMallOutlined, PlayCircleFilled, SettingsOutlined, } from '@material-ui/icons'
+import { AccountCircleOutlined,AssessmentOutlined, DashboardOutlined, ExitToApp, ExpandMore, HeadsetMic, Help, KeyboardArrowRight, LocalMallOutlined, Payment, SettingsOutlined, } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
@@ -62,8 +62,8 @@ const useStyles = makeStyles(theme => ({
         }
     },
     large: {
-        width: theme.spacing(8),
-        height: theme.spacing(8),
+        width: theme.spacing(9),
+        height: theme.spacing(9),
         margin: '0 auto',
         marginBottom: '.5rem',
         marginTop: '-3rem',
@@ -92,8 +92,9 @@ const Sidebar = (props) => {
     const [ open, setOpen ] = useState(false)
 
     const extra = [
-        {name: 'Join Colony', icon: <ForumOutlined fontSize='small' />, path: '/account/dashboard'},
-        {name: 'Move To PRO', icon: <PlayCircleFilled  fontSize='small'/>, path: '/account/products'},
+        {name: 'Plan & Pricing', icon: <Payment fontSize='small' />, path: '/pricing'},
+        {name: 'Help Centre', icon: <Help  fontSize='small'/>, path: '/help'},
+        {name: 'Support', icon: <HeadsetMic  fontSize='small'/>, path: '/support'},
 
     ]
 
@@ -161,7 +162,7 @@ const Sidebar = (props) => {
             {
                 extra.map(item => {
                     return (
-                        <ListItem key={item.name} className={`${classes.menuItem} ${path === item.name.toLowerCase() && classes.active}` }>
+                        <ListItem button component={'a'} href={item.path} key={item.name} className={`${classes.menuItem} ${path === item.name.toLowerCase() || item.name.toLowerCase().includes(path) ? classes.active : null}` }>
                             <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
                             <ListItemText><Typography color='textSecondary'>{item.name}</Typography> </ListItemText>
                         </ListItem>
@@ -171,15 +172,12 @@ const Sidebar = (props) => {
         </List>
         <Box padding={'1rem'}></Box>
         {/* User Profile */}
-        <Box padding='1rem' textAlign={'center'} bgcolor='#256d945c' color='#fff' margin={'1rem'} marginTop='auto' borderRadius='15px'>
+        <Box padding='1rem' textAlign={'center'} bgcolor='#256d945c' color='#fff' margin={'1rem'} marginTop='auto' borderRadius='15px' style={{backgroundImage: 'linear-gradient(181deg, #0969ab, #083554)'}}>
             <Avatar src={ currentUser && currentUser.photo ? currentUser.photo : null } alt='user-img' className={classes.large} />
             <Typography style={{fontWeight: 500, fontSize: '1rem'}} noWrap>{currentUser && currentUser.fullname}</Typography>
-            <Typography variant='body2' style={{color: '#ffffff70'}} noWrap>{currentUser && currentUser.email}</Typography>
+            <Typography variant='body2' style={{color: '#ffffff'}} noWrap>{currentUser && currentUser.email}</Typography>
             <Typography variant='body2' style={{color: '#ffffff70'}} >Administrator</Typography>
-            <span style={{marginTop: '1rem', display: 'block' }}>
-                <IconButton className={classes.iconBtn} style={{marginLeft: 0}}> <ForumOutlined /> </IconButton>
-                <IconButton onClick={Logout} className={classes.iconBtn}> <ExitToApp /> </IconButton>
-            </span>
+            <Button variant='contained' startIcon={<ExitToApp />} disableElevation onClick={Logout} style={{background: '#0271bd80', textTransform: 'none', marginTop: '1rem', borderRadius: '8px', color: '#e7e7e7'}} > Sign Out </Button>
         </Box>
         <Box padding={'.2rem'}></Box>
 

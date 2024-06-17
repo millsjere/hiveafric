@@ -11,6 +11,7 @@ import Loader from './components/Loader';
 import { authRequest } from './actions/actions';
 import Verify from './pages/auth/Verify';
 import PhoneVerify from './pages/auth/PhoneVerify';
+import PrivateRoutes from './components/PrivateRoutes';
 
 
 const App = (props) => {
@@ -58,13 +59,18 @@ const App = (props) => {
             <Route exact path='/verify' element={<Verify />} />
             <Route exact path='/sms-verify' element={<PhoneVerify />} />
 
-            <Route exact path='/dashboard' element={<Account />} />
-            <Route exact path='/inventory' element={<Account />} />
-            <Route exact path='/inventory/category' element={<Account />} />
-            <Route exact path='/inventory/brands' element={<Account />} />
-            <Route exact path='/analytics' element={<Account />} />
-            <Route exact path='/stores' element={<Account />} />
-            <Route exact path='/settings' element={<Account />} />
+            <Route element={<PrivateRoutes />} >
+                <Route exact path='/dashboard' element={<Account />} />
+                <Route exact path='/inventory' element={<Account />} />
+                <Route exact path='/inventory/category' element={<Account />} />
+                <Route exact path='/inventory/brands' element={<Account />} />
+                <Route exact path='/analytics' element={<Account />} />
+                <Route exact path='/stores' element={<Account />} />
+                <Route exact path='/settings' element={<Account />} />
+                <Route exact path='/pricing' element={<Account />} />
+                <Route exact path='/help' element={<Account />} />
+                <Route exact path='/support' element={<Account />} />
+            </Route>
 
           </Routes>
         :
